@@ -11,7 +11,10 @@ def index(request):
 def poll_list(request):
     # 진행중인 설문지 목록 최신순 출력
     polls = Question.objects.all().order_by('-created_at')
-    return render(request, 'admin/poll_list.html', {'polls' : polls})
+    context = {
+        'polls' : polls
+    }
+    return render(request, 'admin/poll_list.html', context)
 
 def poll_detail(request):
     pass

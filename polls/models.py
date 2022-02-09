@@ -8,12 +8,16 @@ class Question(models.Model):
     )
     # 설문지명
     question_text = models.CharField(max_length=200)
+    # 문항 수
+    count = models.IntegerField()
     # 설문 진행 상태
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='p')
     # 설문 발행일
     created_at = models.DateTimeField(auto_now_add=True)
     # 설문 수정일
     updated_at = models.DateTimeField(auto_now=True)
+    # 응답 수
+    votes = models.IntegerField(default=0, blank=True)
 
     def __str__(self):
         return self.question_text
@@ -24,7 +28,7 @@ class Choice(models.Model):
     # 선택지명
     choice_text = models.CharField(max_length=200)
     # 응답 수
-    votes = models.IntegerField(default=0)
+    votes = models.IntegerField(default=0, blank=True)
 
     def __str__(self):
         return self.choice_text
