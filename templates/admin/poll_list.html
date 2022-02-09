@@ -1,0 +1,24 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    설문목록
+    <hr>
+    {% if polls %}
+        {% for poll in polls %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        {{ poll.question_text }}
+                        <footer class="blockquote-footer">last updated at {{ poll.updated_at | timesince }} ago</footer>
+                    </blockquote>
+                </div>
+                <div class="card-header text-right">
+                    <a href="{% url 'admin:update' poll.id %}">수정</a>&nbsp;&nbsp;
+                    <a href="{% url 'admin:delete' poll.id %}">삭제</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

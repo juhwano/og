@@ -1,0 +1,12 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<a href="{% url 'admin:list' %}">설문지 목록</a>
+        <br/>
+        <a href="{% url 'admin:analysis' %}">설문지 통계</a>
+	</div>
+</div>
+{% endblock %}
