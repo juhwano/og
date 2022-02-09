@@ -1,10 +1,14 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
 <div class="card">
 	<div class="card-body">
-		<form action="/admin/create/" method="post">
+		<form action="/admin/new/" method="post">
 			 {% csrf_token %}
 			<div class="form-group">
 				<label for="poll_name_help">설문지 이름을 작성해주세요. </label>
                 <input type="text" class="form-control" id="poll_name" name="poll_name" aria-describedby="note_data_help"><small id="note_data_help" class="form-text text-muted">정확한 조사를 위해 자세히 작성해주세요!</small><br/><hr/>
+                
                 문항 갯수를 입력해주세요<br/>
                 <label for="choice_help">문항 이름을 작성해주세요. </label>
                 <input type="text" class="form-control" id="poll_name" name="choice1" aria-describedby="note_data_help"><small id="note_data_help" class="form-text text-muted">1번째 문항명을 작성해주세요</small>
@@ -14,3 +18,4 @@
 		</form>
 	</div>
 </div>
+{% endblock %}
