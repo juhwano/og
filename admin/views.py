@@ -26,6 +26,7 @@ def poll_list(request):
 def poll_detail(request, pk):
     poll = Question.objects.get(id=pk)
     choice = Choice.objects.filter(question_id=pk)
+    print(choice)
     context = {
         'poll' : poll,
         'choice' : choice,

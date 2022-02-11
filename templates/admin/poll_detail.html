@@ -7,8 +7,11 @@
         <p>설문지명 : {{ poll.question_text }}</p>
         <p>{{ poll.created_at }}</p>
         <hr/>
-
-        <p>{{ choice.choice_text }}</p>
+        {% if choice %}
+            {% for element in choice %}
+                <p>{{ element.choice_text }}</p>
+            {% endfor %}
+        {% endif %}
         <a href="/admin/polls">[뒤로 가기]</a>
 		<form action="{% url 'admin:delete' poll.id %}" method="post">
 			 {% csrf_token %}
