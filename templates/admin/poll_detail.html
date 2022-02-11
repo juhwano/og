@@ -4,9 +4,10 @@
 <div class="card">
 	<div class="card-body">
         <h2>{{ poll.id }}번째 설문지</h2>
-        <p>설문지명 {{ poll.question_text }}</p>
+        <p>설문지명 : {{ poll.question_text }}</p>
         <p>{{ poll.created_at }}</p>
         <hr/>
+
         <p>{{ choice.choice_text }}</p>
         <a href="/admin/polls">[뒤로 가기]</a>
 		<form action="{% url 'admin:delete' poll.id %}" method="post">

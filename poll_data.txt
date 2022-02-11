@@ -1,0 +1,19 @@
+from polls.models import Question, Choice, Select, User
+
+Question.objects.create(question_text='사용자 설문조사1', status='p')
+Question.objects.create(question_text='사용자 설문조사2', status='p')
+Question.objects.create(question_text='사용자 설문조사3', status='p')
+Question.objects.create(question_text='사용자 설문조사4', status='p')
+Question.objects.create(question_text='사용자 설문조사5', status='p')
+
+Choice.objects.create(question=Question.objects.get(id=1), choice_text='당신의 성별은?')
+Choice.objects.create(question=Question.objects.get(id=1), choice_text='당신의 연령은?')
+Choice.objects.create(question=Question.objects.get(id=1), choice_text='당신의 성씨는?')
+Choice.objects.create(question=Question.objects.get(id=1), choice_text='당신의 사는 곳은?')
+Choice.objects.create(question=Question.objects.get(id=1), choice_text='당신의 몸무게는?')
+
+Select.objects.create(choice=Choice.objects.get(id=1), select_text='남', choice_type='checkbox')
+Select.objects.create(choice=Choice.objects.get(id=1), select_text='여', choice_type='checkbox')
+
+User.objects.create(question_name=Question.objects.get(id=1), select_name=Choice.objects.get(id=1), user_select=Select.objects.get(id=1), user_number='010-1234-5678')
+User.objects.create(question_name=Question.objects.get(id=1), select_name=Choice.objects.get(id=1), user_select=Select.objects.get(id=2), user_number='010-1234-5679')

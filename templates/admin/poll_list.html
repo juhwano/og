@@ -3,15 +3,20 @@
 {% load static %}
 
 {% block content %}
+    <div>
+        <button class="btn btn-sm btn-primary"><a href="{% url 'admin:create' %}" style="color:#fff; text-decoration: none;">설문 추가하기</a></button>
+    </div>
+    <br/>
     <table class="table text-center">
         <thead>
         <tr class="thead-dark">
             <th>번호</th>
             <th>제목</th>
-            <th>문항 수</th>
+            <th>상태</th>
             <th>응답 수</th>
             <th>발행일</th>
-            <th colspan="4"></th>
+            <th>수정일</th>
+            <th colspan="3"></th>
         </tr>
         </thead>
         <tbody>
@@ -20,7 +25,7 @@
                 <tr>
                     <td>{{ poll.id }}</td>
                     <td><a href="{% url 'admin:detail' poll.id %}">{{ poll.question_text }}</a></td>
-                    <td>{{ poll.count }}</td>
+                    <td>{{ poll.status }}</td>
                     <td>{{ poll.votes }}</td>
                     <td>{{ poll.created_at | date:"Y-m-d" }}</td>
                     <td>last updated at {{ poll.updated_at | timesince }} ago</td>
@@ -36,7 +41,45 @@
         {% endif %}
         </tbody>
     </table>
-    <div>
-        <button class="btn btn-sm btn-dark"><a href="{% url 'admin:create' %}" style="color:#fff; text-decoration: none;">설문 추가하기</a></button>
+    <!-- 페이징처리 시작 -->
+    <div id="paging">
+        <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+            <!-- 이전페이지 -->
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?&page={{ page_obj.previous_page_number }}">이전</a>
+                <!-- href로 뎁스 설정 -->
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+            {% endif %}
+            <!-- 페이지리스트 -->
+            {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number == page_obj.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            <!-- 다음페이지 -->
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?&page={{ page_obj.next_page_number }}">다음</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
+    <!-- 페이징처리 끝 -->
+
+
 {% endblock %}

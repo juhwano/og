@@ -1,18 +1,24 @@
 from django.shortcuts import render, redirect
-from polls.models import Question, Choice
-import datetime
-import json
-from django.http import JsonResponse
-from django.views import View
+from polls.models import Question, Choice, Select
+from django.core.paginator import Paginator
+import datetime, math
+
+
 # Create your views here.
 def index(request):
     return render(request, 'admin/index.html')
 
 # 설문지 목록 최신순 출력
 def poll_list(request):
+    # 데이터 조회(시간 역순 정렬)
     polls = Question.objects.all().order_by('-created_at')
+    # 페이징 처리
+    paginator = Paginator(polls, 5)  # Show 25 contacts per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'polls' : polls
+        'polls' : polls,
+        'page_obj' : page_obj,
     }
     return render(request, 'admin/poll_list.html', context)
 
@@ -34,16 +40,26 @@ def poll_create(request):
 def new_poll(request):
     if request.method == 'POST':
         question_name = request.POST.get('question_name')
-        question_count = request.POST.get('question_count')
-        question_status = request.POST.get('question_status')
-        choice_name = request.POST.getlist('choice_name')
-        print(choice_name)
+        choice_name_data = request.POST.getlist('input[choice_name]')
+        # select_name_data = request.POST.getlist('input[select_name]')
+        # select_type_data = request.POST.getlist('input[select_type_name]')
 
-        question_data = Question(question_text= question_name, count=question_count, status=question_status, created_at=datetime.datetime.now(), updated_at=datetime.datetime.now())
-        choice_data = Choice(choice_text=choice_name) # id는 어떻게?
-
+        question_data = Question(question_text=question_name, created_at=datetime.datetime.now(),
+                                 updated_at=datetime.datetime.now())
+        print('1')
+        print(question_data.pk)
+        print(type(question_data))
         question_data.save()
-        choice_data.save()
+        get_question = Question.objects.filter(question_text=question_name)
+        print('2')
+        print(get_question.pk)
+        print(type(get_question.pk))
+        # for element in choice_name_data:
+        #     choice_data = Choice(question=Question.objects.get(id=get_question.id), choice_text=element)
+        #     choice_data.save()
+
+        # choice_data.save()
+        # select_data.save()
         return redirect('/admin/polls')
 
 def poll_update(request, pk):
